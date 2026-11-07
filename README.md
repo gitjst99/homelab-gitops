@@ -9,16 +9,16 @@ infrastructure/   cluster-wide: storage class (later ingress, cert-manager…)
 apps/hello-api/   base manifests + dev/prod overlays
 ```
 
-## Before the first push: fill in placeholders
+## Placeholders
 
 ```bash
 grep -rn "YOUR_GITHUB_USER\|NAS_IP_ADDRESS" .
 ```
 
-- `YOUR_GITHUB_USER` → your GitHub username (all files)
+- `YOUR_GITHUB_USER` → your GitHub username, lowercase (all files)
 - `NAS_IP_ADDRESS` and `/volume1/k8s` → your Synology IP and NFS share (`infrastructure/storage/storageclass-nfs.yaml`)
 
-Keep this repo **public** (it contains no secrets), so Argo CD can read it without credentials. If you prefer it private, add the repo in the Argo CD UI under Settings → Repositories.
+Keep this repo **public** on GitHub (it contains no secrets), so Argo CD can read it without credentials. If you'd rather keep it private, add it in the Argo CD UI under Settings → Repositories with a read-only token.
 
 ## Bootstrap (one time)
 
@@ -43,6 +43,7 @@ After step 3, Argo CD creates the NFS driver, the StorageClass and both hello-ap
 - **dev** syncs automatically. hello-api's CI writes each new image tag into `apps/hello-api/overlays/dev`.
 - **prod** is manual: copy the tag from dev to `apps/hello-api/overlays/prod/kustomization.yaml`, commit, then press **Sync** on `hello-api-prod` in the UI.
 - Try the app: `kubectl -n hello-api-dev port-forward svc/hello-api 8000:80` → http://localhost:8000/version
+- Run `git pull` before editing: CI also commits to this repo.
 
 ## Check your YAML before pushing
 
@@ -53,6 +54,7 @@ kubectl kustomize apps/hello-api/overlays/prod
 
 ## Next steps when you're ready
 
-- Ingress controller + MetalLB (or Talos/Cilium L2) so apps get a real URL instead of port-forward
+- Ingress controller + MetalLB (or Cilium L2) so apps get a real URL instead of port-forward
 - Sealed Secrets for anything secret
+- Self-hosted Forgejo on a Proxmox VM, to move Git and CI home
 - Let Argo CD manage its own install (move `bootstrap/argocd` into an Application)

@@ -3,6 +3,8 @@
 ## About this repo
 - Desired state of my homelab Kubernetes cluster. Argo CD applies whatever is on `main`.
 - Cluster: 2 Talos Linux nodes on Proxmox. Storage: Synology NAS over NFS (csi-driver-nfs).
+- Git and CI are on GitHub (this repo is public there; images on ghcr.io).
+  The Synology Git Server keeps a backup copy (remote `nas-backup`).
 - I'm learning. Explain Kubernetes concepts briefly when you touch them.
 
 ## Layout
@@ -10,7 +12,6 @@
 - `argocd-apps/` — one Argo CD `Application` per thing running in the cluster
 - `infrastructure/` — cluster-wide pieces (StorageClass, later ingress, cert-manager...)
 - `apps/<name>/base` + `apps/<name>/overlays/{dev,prod}` — kustomize per app
-
 ## How changes work
 - Change YAML → commit → push → Argo CD syncs. dev syncs automatically; prod is manual.
 - To add an app: create `apps/<name>/...` and an Application in `argocd-apps/`.
