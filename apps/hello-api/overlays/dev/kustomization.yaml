@@ -1,0 +1,10 @@
+# dev: 1 replica. The image tag below is updated automatically by hello-api's CI.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: hello-api-dev
+resources:
+  - ../../base
+images:
+  - name: hello-api
+    newName: ghcr.io/YOUR_GITHUB_USER/hello-api
+    newTag: latest

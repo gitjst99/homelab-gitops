@@ -1,0 +1,14 @@
+# prod: 2 replicas. Promote by copying a tested tag from the dev overlay
+# (e.g. sha-1a2b3c4) into newTag below, then commit and press Sync in Argo CD.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: hello-api-prod
+resources:
+  - ../../base
+replicas:
+  - name: hello-api
+    count: 2
+images:
+  - name: hello-api
+    newName: ghcr.io/YOUR_GITHUB_USER/hello-api
+    newTag: latest

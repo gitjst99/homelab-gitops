@@ -1,0 +1,23 @@
+# Each PersistentVolumeClaim using this class gets its own sub-folder on the share.
+#
+# On the Synology (Control Panel -> Shared Folder -> Edit -> NFS Permissions):
+#   - Hostname/IP: your Talos node subnet, e.g. 192.168.1.0/24
+#   - Privilege: Read/Write
+#   - Squash: "Map all users to admin" is the easiest start
+#   - Enable "Allow connections from non-privileged ports"
+#
+# Good for app files, uploads, config. Avoid running databases on NFS.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-synology
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: NAS_IP_ADDRESS # e.g. 192.168.1.10
+  share: /volume1/k8s # the exported shared folder
+  subDir: ${pvc.metadata.namespace}-${pvc.metadata.name}
+reclaimPolicy: Retain # keep the data if a PVC is deleted (safer while learning)
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+mountOptions:
+  - nfsvers=4.1

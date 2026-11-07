@@ -1,0 +1,9 @@
+# Installs Argo CD itself. Applied ONCE by hand (see README):
+#   kubectl apply --server-side --force-conflicts -k bootstrap/argocd
+# To upgrade later: change the version in the URL, commit, apply again.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+resources:
+  - namespace.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v3.5.5/manifests/install.yaml

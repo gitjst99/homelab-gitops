@@ -1,0 +1,22 @@
+# The "app of apps". Applied ONCE by hand after Argo CD is running:
+#   kubectl apply -f bootstrap/root.yaml
+# From then on, Argo CD watches argocd-apps/ and creates every Application in it.
+# To add something to the cluster: add a file to argocd-apps/ and push. That's it.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GITHUB_USER/homelab-gitops.git
+    targetRevision: main
+    path: argocd-apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-api-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GITHUB_USER/homelab-gitops.git
+    targetRevision: main
+    path: apps/hello-api/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: hello-api-prod
+  syncPolicy:
+    # No "automated" block: prod only changes when you press Sync in the Argo CD UI
+    # (or run `argocd app sync hello-api-prod`). Remove this comment and add
+    # automated: {prune: true, selfHeal: true} once you trust the pipeline.
+    syncOptions:
+      - CreateNamespace=true

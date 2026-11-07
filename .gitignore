@@ -1,0 +1,12 @@
+# Never commit cluster credentials or plain secrets
+*.kubeconfig
+kubeconfig
+talosconfig
+*.secret.yaml
+.env
+
+.claude/settings.local.json
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
