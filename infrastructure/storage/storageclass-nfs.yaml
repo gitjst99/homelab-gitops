@@ -13,7 +13,7 @@ metadata:
   name: nfs-synology
 provisioner: nfs.csi.k8s.io
 parameters:
-  server: NAS_IP_ADDRESS # e.g. 192.168.1.10
+  server: 192.168.68.51 # e.g. 192.168.1.10
   share: /volume1/k8s # the exported shared folder
   subDir: ${pvc.metadata.namespace}-${pvc.metadata.name}
 reclaimPolicy: Retain # keep the data if a PVC is deleted (safer while learning)

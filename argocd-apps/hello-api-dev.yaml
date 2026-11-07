@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_GITHUB_USER/homelab-gitops.git
+    repoURL: https://github.com/gitjst99/homelab-gitops.git
     targetRevision: main
     path: apps/hello-api/overlays/dev
   destination:

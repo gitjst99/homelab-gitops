@@ -12,11 +12,11 @@ apps/hello-api/   base manifests + dev/prod overlays
 ## Placeholders
 
 ```bash
-grep -rn "YOUR_GITHUB_USER\|NAS_IP_ADDRESS" .
+grep -rn "gitjst99\|192.168.68.51" .
 ```
 
-- `YOUR_GITHUB_USER` → your GitHub username, lowercase (all files)
-- `NAS_IP_ADDRESS` and `/volume1/k8s` → your Synology IP and NFS share (`infrastructure/storage/storageclass-nfs.yaml`)
+- `gitjst99` → your GitHub username, lowercase (all files)
+- `192.168.68.51` and `/volume1/k8s` → your Synology IP and NFS share (`infrastructure/storage/storageclass-nfs.yaml`)
 
 Keep this repo **public** on GitHub (it contains no secrets), so Argo CD can read it without credentials. If you'd rather keep it private, add it in the Argo CD UI under Settings → Repositories with a read-only token.
 
